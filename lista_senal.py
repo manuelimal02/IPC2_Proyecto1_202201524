@@ -17,6 +17,7 @@ class lista_senal:
             actual=actual.siguiente
         actual.siguiente=nodo_senal(senal=senal)
         self.contador_senal+=1
+
     
     def recorrer_imprimir_senal(self):
         print("-----------------------------------")
