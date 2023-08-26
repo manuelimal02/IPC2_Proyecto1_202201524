@@ -7,6 +7,15 @@ class lista_dato:
     def __init__(self):
         self.primero=None
         self.contador_dato=0
+
+    def imprimir_valor(self):
+        print("-----------------------------------")
+        actual=self.primero
+        while actual !=None:
+            print("T:",actual.dato.tiempo,"A:",actual.dato.amplitud,"V:",actual.dato.valor)
+            actual=actual.siguiente   
+        print("-----------------------------------") 
+
     
     def insertar_dato(self,dato):
         nuevo_dato=nodo_dato(dato=dato)
@@ -81,21 +90,7 @@ class lista_dato:
         #devolvemos el string resultado
         return string_resultado
 
-    def sum_substrings(input_string):
-        sub_strings = input_string.split('%')
-        if len(input_string) == 9:
-            return input_string.rstrip('-%')
-        else: 
-            first_values = sub_strings[0].split('-')
-            second_values = sub_strings[1].split('-')
-            result = []
-            for first, second in zip(first_values, second_values):
-                if first.isdigit() and second.isdigit():
-                    result.append(str(int(first) + int(second)))
-            return "-".join(result)
-
-
-    def generar_grafica_matriz_original(self,nombre,tiempo,amplitud):
+    def grafica_matriz_original(self,nombre,tiempo,amplitud):
         f = open('bb.dot','w')
         text ="""
             digraph G {

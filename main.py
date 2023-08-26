@@ -12,11 +12,11 @@ from lista_dato import lista_dato
 from lista_patrones import lista_patrones
 from lista_grupo import lista_grupo
 
-ruta_archivo = "D:/USAC/4 Cuarto Semestre/Introducción A La Programación Y Computación 2 Laboratorio/PROYECTO 1/prueba1.xml"
+#ruta_archivo = ""
+ruta_archivo = "D:/USAC/4 Cuarto Semestre/Introducción A La Programación Y Computación 2 Laboratorio/PROYECTO 1/Prueba_Dos.xml"
+
 
 manejador_lista_senales=lista_senal()
-manejador_lista_datos=lista_dato()
-manejador_lista_binaria=lista_dato()
 
 def modificar_ruta(nueva_ruta):
     global ruta_archivo
@@ -67,7 +67,7 @@ def cargar_archivo():
     if ruta_seleccionada:
         ruta_archivo = ruta_seleccionada
         modificar_ruta(ruta_archivo)
-    print("Archivo cargado correctamente: ",ruta_archivo )
+    print("Archivo cargado correctamente")
     print("--------------------------------------")         
     print("¿Desea realizar otra operación?")
     print("1. Sí")
@@ -91,17 +91,18 @@ def procesar_archivo():
     print("")
     #try:
     with open(ruta_archivo, "r") as archivo:
-            # Parsear el XML
             tree = ET.parse(ruta_archivo)
             raiz=tree.getroot()
-            # Recorrer el XML
             for senal_temporal in raiz.findall('senal'):
                 nombre_senal=senal_temporal.get('nombre')
                 tiempo_senal=senal_temporal.get('t')
                 amplitud_senal=senal_temporal.get('A')
-                #Lista Patron y Grupos
+                #Lista
+                manejador_lista_datos=lista_dato()
+                manejador_lista_binaria=lista_dato()
                 manejador_lista_patrones=lista_patrones()
                 manejador_lista_grupos=lista_grupo()
+
                 for dato_senal in senal_temporal.findall('dato'):
                     tiempo=dato_senal.get('t')
                     amplitud=dato_senal.get('A')
@@ -114,9 +115,10 @@ def procesar_archivo():
                     else:
                         nuevo_dato=dato(int(tiempo),int(amplitud),1)
                         manejador_lista_binaria.insertar_dato(nuevo_dato)
-                    manejador_lista_senales.insertar_senal(senal(nombre_senal,tiempo_senal,amplitud_senal,manejador_lista_datos,manejador_lista_binaria,manejador_lista_patrones,manejador_lista_grupos))
-               
-    manejador_lista_senales.calcular_los_patrones("Prueba 1")         
+                manejador_lista_senales.insertar_senal(senal(nombre_senal,tiempo_senal,amplitud_senal,manejador_lista_datos,manejador_lista_binaria,manejador_lista_patrones,manejador_lista_grupos))
+                
+            manejador_lista_senales.calcular_los_patrones()
+            manejador_lista_senales.recorrer_imprimir_senal() 
     #except Exception as e:
         #print("ERROR:", e)
     
@@ -167,7 +169,7 @@ def generar_grafica():
     print("--------------------------------------------------")
     nombre_senal=input("Ingrese nombre de la señal: ")
     print("")
-    #manejador_lista_senales.grafica_matriz_original(nombre_senal)
+    manejador_lista_senales.grafica_matrices(nombre_senal)
     print("--------------------------------------")         
     print("¿Desea realizar otra operación?")
     print("1. Sí")
@@ -187,36 +189,6 @@ def generar_grafica():
 def salir():
     print("Gracias por utilizar el programa.                 ")
     print("--------------------------------------------------")
-
-def sumar_subcadenas(input_str):
-        subcadenas = []
-        subcadena = ""
-        for char in input_str:
-            if char == "%":
-                subcadenas.append(subcadena)
-                subcadena = ""
-            else:
-                subcadena += char
-        
-        # Encontrar la longitud mínima entre las subcadenas
-        min_len = min(len(subcadenas[0]), len(subcadenas[1]))
-        
-        # Inicializar una lista para almacenar las sumas
-        sumas = []
-        current_sum = 0
-        
-        # Iterar a través de los caracteres y calcular las sumas
-        for i in range(min_len):
-            char1 = subcadenas[0][i]
-            char2 = subcadenas[1][i]
-            
-            if char1.isdigit() and char2.isdigit():
-                current_sum = current_sum + int(char1) + int(char2)
-                sumas.append(str(current_sum))
-        
-        # Crear un nuevo string separado por guiones con las sumas calculadas
-        resultado = "-".join(sumas)
-        return resultado
 
 if __name__=="__main__":
     print("--------------------------------------------------")

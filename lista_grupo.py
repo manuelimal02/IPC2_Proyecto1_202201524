@@ -1,4 +1,20 @@
+import sys
+import os
 from nodo_grupo import nodo_grupo
+
+def dividir_cadena_numeros(cadena, delimitador):
+    numeros = []  # Lista para almacenar los números resultantes
+    numero_actual = ""  # Cadena para construir el número actual
+    for char in cadena:
+        if char == delimitador:
+            if numero_actual:
+                numeros.append(int(numero_actual))
+                numero_actual = ""
+        else:
+            numero_actual += char
+    if numero_actual:
+        numeros.append(int(numero_actual))
+    return numeros
 
 class lista_grupo:
     def __init__(self):
@@ -16,12 +32,38 @@ class lista_grupo:
         actual.siguiente = nodo_grupo(grupo=grupo)
         self.contador_grupos+=1
 
+    def grafica_matriz_reducida(self, nombre_senal):
+        f = open('aa.dot','w')
+        text ="""
+            digraph G {
+            label="Matriz de Onda Reducida"
+            fontname="Helvetica,Arial,sans-serif"
+            node [fontname="Helvetica,Arial,sans-serif"]
+            edge [fontname="Helvetica,Arial,sans-serif"]
+            a0 [shape=none  label=<
+            <TABLE border="0" cellspacing="10" cellpadding="10" >\n"""
+        actual = self.primero
+        while actual:
+            if actual.grupo.nombre_senal == nombre_senal:
+                text+="""<TR>""" 
+                cadena_digitos=dividir_cadena_numeros(actual.grupo.cadena_grupo_sumado,"-")
+                text+="""<TD bgcolor="brown:purple"  gradientangle="315">"""+str(actual.grupo.nombre_grupo)+"""</TD>\n"""
+                for i in cadena_digitos:
+                    text+="""<TD bgcolor="brown:purple"  gradientangle="315">"""+str(i)+"""</TD>\n"""
+                text+="""</TR>\n"""
+            actual = actual.siguiente
+        text+="""</TABLE>>];
+                }\n"""
+        f.write(text)
+        f.close()
+        os.environ["PATH"] += os.pathsep + 'C:/Program Files/Graphviz/bin'
+        os.system('dot -Tpng aa.dot -o grafica_matriz_reducida.png')
 
     def imprimir_lista_grupo(self):
         print("===========================================================================================")
         actual = self.primero
         while actual != None:
-            print(" Grupo: ",actual.grupo.nombre_grupo)
-            print("Cadena-grupo:"+"\n",actual.grupo.cadena_grupo)
+            #print("Nombre Senal: ",actual.grupo.nombre_senal, "Cadena: ",actual.grupo.cadena_grupo)
+            print("Nombre Senal: ",actual.grupo.nombre_senal,"Amplitud: ",actual.grupo.amplitud,"Grupo: ",actual.grupo.nombre_grupo,"Suma: ",actual.grupo.cadena_grupo_sumado)
             actual = actual.siguiente
         print("===========================================================================================")
