@@ -12,9 +12,7 @@ from lista_dato import lista_dato
 from lista_patrones import lista_patrones
 from lista_grupo import lista_grupo
 
-#ruta_archivo = ""
 ruta_archivo = "D:/USAC/4 Cuarto Semestre/Introducción A La Programación Y Computación 2 Laboratorio/PROYECTO 1/Prueba_Dos.xml"
-
 
 manejador_lista_senales=lista_senal()
 
@@ -40,13 +38,13 @@ def menu_principal():
     elif  opcion == "2":
         procesar_archivo()
     elif opcion == "3":
-        print("OPCION ESCRIBIR XML")
+        escribir_archivo_salida()
     elif opcion == "4":
         mostrar_datos_estudiante()
     elif opcion == "5":
         generar_grafica()
     elif opcion == "6":
-        print("OPCION INICIALIZAR SISTEMA")
+        inicializar_sistema()
     elif opcion == "7":
         salir()        
     else:
@@ -67,7 +65,7 @@ def cargar_archivo():
     if ruta_seleccionada:
         ruta_archivo = ruta_seleccionada
         modificar_ruta(ruta_archivo)
-    print("Archivo cargado correctamente")
+    print("Archivo cargado correctamente.")
     print("--------------------------------------")         
     print("¿Desea realizar otra operación?")
     print("1. Sí")
@@ -89,39 +87,62 @@ def procesar_archivo():
     print("PROCESAR ARCHIVO")
     print("--------------------------------------------------")
     print("")
-    #try:
-    with open(ruta_archivo, "r") as archivo:
-            tree = ET.parse(ruta_archivo)
-            raiz=tree.getroot()
-            for senal_temporal in raiz.findall('senal'):
-                nombre_senal=senal_temporal.get('nombre')
-                tiempo_senal=senal_temporal.get('t')
-                amplitud_senal=senal_temporal.get('A')
-                #Lista
-                manejador_lista_datos=lista_dato()
-                manejador_lista_binaria=lista_dato()
-                manejador_lista_patrones=lista_patrones()
-                manejador_lista_grupos=lista_grupo()
+    if ruta_archivo=="":
+        print("ERROR: Seleccione un archivo para procesar.")
+    else:
+        try:
+            with open(ruta_archivo, "r") as archivo:
+                tree = ET.parse(ruta_archivo)
+                raiz=tree.getroot()
+                for senal_temporal in raiz.findall('senal'):
+                    nombre_senal=senal_temporal.get('nombre')
+                    tiempo_senal=senal_temporal.get('t')
+                    amplitud_senal=senal_temporal.get('A')
+                    #Listas
+                    manejador_lista_datos=lista_dato()
+                    manejador_lista_binaria=lista_dato()
+                    manejador_lista_patrones=lista_patrones()
+                    manejador_lista_grupos=lista_grupo()
 
-                for dato_senal in senal_temporal.findall('dato'):
-                    tiempo=dato_senal.get('t')
-                    amplitud=dato_senal.get('A')
-                    valor=dato_senal.text
-                    nuevo_dato=dato(int(tiempo),int(amplitud),int(valor))
-                    manejador_lista_datos.insertar_dato(nuevo_dato)
-                    if valor =="0":
-                        nuevo_dato=dato(int(tiempo),int(amplitud),0)
-                        manejador_lista_binaria.insertar_dato(nuevo_dato)
-                    else:
-                        nuevo_dato=dato(int(tiempo),int(amplitud),1)
-                        manejador_lista_binaria.insertar_dato(nuevo_dato)
-                manejador_lista_senales.insertar_senal(senal(nombre_senal,tiempo_senal,amplitud_senal,manejador_lista_datos,manejador_lista_binaria,manejador_lista_patrones,manejador_lista_grupos))
-                
-            manejador_lista_senales.calcular_los_patrones()
-            manejador_lista_senales.recorrer_imprimir_senal() 
-    #except Exception as e:
-        #print("ERROR:", e)
-    
+                    for dato_senal in senal_temporal.findall('dato'):
+                        tiempo=dato_senal.get('t')
+                        amplitud=dato_senal.get('A')
+                        valor=dato_senal.text
+                        nuevo_dato=dato(int(tiempo),int(amplitud),int(valor))
+                        manejador_lista_datos.insertar_dato(nuevo_dato)
+                        if valor =="0":
+                            nuevo_dato=dato(int(tiempo),int(amplitud),0)
+                            manejador_lista_binaria.insertar_dato(nuevo_dato)
+                        else:
+                            nuevo_dato=dato(int(tiempo),int(amplitud),1)
+                            manejador_lista_binaria.insertar_dato(nuevo_dato)
+                    manejador_lista_senales.insertar_senal(senal(nombre_senal,tiempo_senal,amplitud_senal,manejador_lista_datos,manejador_lista_binaria,manejador_lista_patrones,manejador_lista_grupos))
+                    
+                manejador_lista_senales.procesar_archivo()
+                manejador_lista_senales.imprimir_senales() 
+        except Exception as e:
+            print("ERROR:", e)
+    print("--------------------------------------")         
+    print("¿Desea realizar otra operación?")
+    print("1. Sí")
+    print("2. No")
+    print("--------------------------------------")
+    opcion = input("Ingrese Una Opción: ")
+    if opcion=="1":
+        menu_principal()
+    elif opcion=="2":
+        salir()  
+    else:
+        print("--------------------------------------------------")
+        print("Opción No Válida")
+        menu_principal()
+    print("--------------------------------------------------")
+
+def escribir_archivo_salida():
+    print("--------------------------------------------------")
+    print("ESCRIBIR ARCHIVO SALIDA")
+    print("--------------------------------------------------")
+    manejador_lista_senales.escribir_archivo_salida("PRUEBA_SALIDA")
     print("--------------------------------------")         
     print("¿Desea realizar otra operación?")
     print("1. Sí")
@@ -170,6 +191,30 @@ def generar_grafica():
     nombre_senal=input("Ingrese nombre de la señal: ")
     print("")
     manejador_lista_senales.grafica_matrices(nombre_senal)
+    print("--------------------------------------")         
+    print("¿Desea realizar otra operación?")
+    print("1. Sí")
+    print("2. No")
+    print("--------------------------------------")
+    opcion = input("Ingrese Una Opción: ")
+    if opcion=="1":
+        menu_principal()
+    elif opcion=="2":
+        salir()  
+    else:
+        print("--------------------------------------------------")
+        print("Opción No Válida")
+        menu_principal()
+    print("--------------------------------------------------")
+
+def inicializar_sistema():
+    print("--------------------------------------------------")
+    print("INICIALIZAR SISTEMA")
+    print("--------------------------------------------------")
+    manejador_lista_senales.inicializar_sistema()
+    print("")
+    manejador_lista_senales.imprimir_senales()
+    modificar_ruta("")
     print("--------------------------------------")         
     print("¿Desea realizar otra operación?")
     print("1. Sí")
