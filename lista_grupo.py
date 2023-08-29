@@ -4,7 +4,7 @@ import xml.etree.ElementTree as ET
 import xml.dom.minidom as minidom
 from nodo_grupo import nodo_grupo
 
-def dividir_cadena_numeros(cadena, delimitador):
+def dividir_cadena_sumada(cadena, delimitador):
     numeros = [] 
     numero_actual = ""
     for char in cadena:
@@ -55,7 +55,7 @@ class lista_grupo:
         while actual:
             if actual.grupo.nombre_senal == nombre_senal:
                 text+="""<TR>""" 
-                cadena_digitos=dividir_cadena_numeros(actual.grupo.cadena_grupo_sumado,"-")
+                cadena_digitos=dividir_cadena_sumada(actual.grupo.cadena_grupo_sumado,"-")
                 text+="""<TD bgcolor="brown:purple"  gradientangle="315">"""+str(actual.grupo.nombre_grupo)+"""</TD>\n"""
                 for i in cadena_digitos:
                     text+="""<TD bgcolor="red:blue"  gradientangle="315">"""+str(i)+"""</TD>\n"""
@@ -69,14 +69,9 @@ class lista_grupo:
         os.system('dot -Tpng aa.dot -o grafica_matriz_reducida.png')
 
     def imprimir_lista_grupo(self):
-        print("===========================================================================================")
+        print("-----------------------------------")
         actual = self.primero
         while actual != None:
             print("Nombre Senal: ",actual.grupo.nombre_senal,"Amplitud: ",actual.grupo.amplitud,"Grupo: ",actual.grupo.nombre_grupo,"Suma: ",actual.grupo.cadena_grupo_sumado)
             actual = actual.siguiente
-        print("===========================================================================================")
-
-    def generar_xml(self, nombre):
-        print(nombre)
-
-
+        print("-----------------------------------")

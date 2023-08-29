@@ -12,7 +12,7 @@ from lista_dato import lista_dato
 from lista_patrones import lista_patrones
 from lista_grupo import lista_grupo
 
-ruta_archivo = "D:/USAC/4 Cuarto Semestre/Introducción A La Programación Y Computación 2 Laboratorio/PROYECTO 1/Prueba_Dos.xml"
+ruta_archivo = ""
 
 manejador_lista_senales=lista_senal()
 
@@ -103,7 +103,6 @@ def procesar_archivo():
                     manejador_lista_binaria=lista_dato()
                     manejador_lista_patrones=lista_patrones()
                     manejador_lista_grupos=lista_grupo()
-
                     for dato_senal in senal_temporal.findall('dato'):
                         tiempo=dato_senal.get('t')
                         amplitud=dato_senal.get('A')
@@ -116,10 +115,12 @@ def procesar_archivo():
                         else:
                             nuevo_dato=dato(int(tiempo),int(amplitud),1)
                             manejador_lista_binaria.insertar_dato(nuevo_dato)
-                    manejador_lista_senales.insertar_senal(senal(nombre_senal,tiempo_senal,amplitud_senal,manejador_lista_datos,manejador_lista_binaria,manejador_lista_patrones,manejador_lista_grupos))
-                    
+                    manejador_lista_senales.insertar_senal(senal(nombre_senal,tiempo_senal,amplitud_senal,
+                                                                 manejador_lista_datos,
+                                                                 manejador_lista_binaria,
+                                                                 manejador_lista_patrones,
+                                                                 manejador_lista_grupos)) 
                 manejador_lista_senales.procesar_archivo()
-                manejador_lista_senales.imprimir_senales() 
         except Exception as e:
             print("ERROR:", e)
     print("--------------------------------------")         
@@ -142,7 +143,9 @@ def escribir_archivo_salida():
     print("--------------------------------------------------")
     print("ESCRIBIR ARCHIVO SALIDA")
     print("--------------------------------------------------")
-    manejador_lista_senales.escribir_archivo_salida("PRUEBA_SALIDA")
+    nombre_xml=input("Ingrese un nombre para guardar el archivo XML: ")
+    print("")
+    manejador_lista_senales.escribir_archivo_salida(nombre_xml)
     print("--------------------------------------")         
     print("¿Desea realizar otra operación?")
     print("1. Sí")

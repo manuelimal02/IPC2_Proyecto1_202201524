@@ -32,7 +32,7 @@ class lista_dato:
         nuevo_dato.siguiente=actual.siguiente
         actual.siguiente=nuevo_dato
 
-    def devolver_patrones_por_tiempo(self,lista_patron):
+    def patrones_por_tiempo(self,lista_patron):
         actual = self.primero
         sentinela_de_filas=actual.dato.tiempo
         fila_iniciada=False
@@ -52,7 +52,7 @@ class lista_dato:
         lista_patron.insertar_patron(patron(sentinela_de_filas,recolector_patron))
         return lista_patron
 
-    def devolver_cadena_del_grupo(self,grupo):
+    def cadena_del_grupo(self,grupo):
         string_resultado=""
         string_temporal=""
         buffer=""

@@ -17,13 +17,13 @@ class lista_patrones:
     self.contador_patrones+=1
 
   def imprimir_lista_patron(self):
-    print("===========================================================================================")
+    print("-----------------------------------")
     actual = self.primero
     while actual != None:
       print(" Tiempo: ",actual.patron.tiempo)
       print("Cadena-Patron: ",actual.patron.cadena_patron)
       actual = actual.siguiente
-    print("===========================================================================================")
+    print("-----------------------------------")
 
   def eliminar(self,tiempo):
     actual = self.primero
