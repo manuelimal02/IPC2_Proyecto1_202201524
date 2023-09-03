@@ -66,24 +66,21 @@ class lista_dato:
                     if actual.dato.tiempo==int(buffer):
                         string_temporal+=str(actual.dato.valor)+"-"
                     actual = actual.siguiente
-                string_resultado=string_resultado+string_temporal+"%"
+                string_resultado=string_resultado+string_temporal+"!"
                 buffer=""
         return string_resultado
 
     def grafica_matriz_original(self,nombre,tiempo,amplitud):
-        f = open('bb.dot','w')
+        f = open('g_original.dot','w')
         text ="""
             digraph G {
-                subgraph cluster17
-                    {
-                    n019 ;
-                    n019 [label="Nombre Senal: """+nombre+""""] ;
-                    n019 -> n020 ;
-                    n020 [label="Tiempo: """+tiempo+""""] ;
-                    n019 -> n021 ;
-                    n021 [label="Amplitud: """+amplitud+""""] ;
+            label="Matriz Original"
+                subgraph cluster1 {bgcolor="purple:pink" label="Matriz Reducida" fontcolor="white"
+                    fillcolor="blue:cyan" label="Senal: """+nombre+"""" fontcolor="white" style="filled" gradientangle="270"
+                    node [shape=box fillcolor="red:yellow" style="filled" gradientangle=90]
+                    "Tiempo: """+tiempo+"""";
+                    "Amplitud: """+amplitud+"""";
                     }
-            label="Matriz de Onda Original"
             fontname="Helvetica,Arial,sans-serif"
             node [fontname="Helvetica,Arial,sans-serif"]
             edge [fontname="Helvetica,Arial,sans-serif"]
@@ -100,14 +97,14 @@ class lista_dato:
             if fila_iniciada==False:
                 fila_iniciada=True
                 text+="""<TR>"""  
-                text+="""<TD bgcolor="brown:purple"  gradientangle="315">"""+str(actual.dato.valor)+"""</TD>\n"""
+                text+="""<TD style="radial" bgcolor="yellow:green"  gradientangle="60">"""+str(actual.dato.valor)+"""</TD>\n"""
             else:
-                text+="""<TD bgcolor="brown:purple"  gradientangle="315">"""+str(actual.dato.valor)+"""</TD>\n"""
+                text+="""<TD style="radial" bgcolor="yellow:green"  gradientangle="60">"""+str(actual.dato.valor)+"""</TD>\n"""
             actual = actual.siguiente
         text+=""" </TR></TABLE>>];
                 }\n"""
         f.write(text)
         f.close()
         os.environ["PATH"] += os.pathsep + 'C:/Program Files/Graphviz/bin'
-        os.system('dot -Tpng bb.dot -o grafica_matriz_original.png')
+        os.system('dot -Tpng g_original.dot -o grafica_matriz_original.png')
 

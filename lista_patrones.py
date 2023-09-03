@@ -45,7 +45,7 @@ class lista_patrones:
       temp_tiempo = "" 
       while actual:
         if actual.patron.cadena_patron == self.primero.patron.cadena_patron:
-          temp_tiempo+=(str(actual.patron.tiempo))+"." 
+          temp_tiempo+=(str(actual.patron.tiempo))+"/" 
         actual=actual.siguiente
       buffer=""
       for digito in temp_tiempo:

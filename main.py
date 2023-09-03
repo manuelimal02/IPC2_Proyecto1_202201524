@@ -14,7 +14,7 @@ from lista_grupo import lista_grupo
 
 ruta_archivo = ""
 
-manejador_lista_senales=lista_senal()
+lista_senales_temporal=lista_senal()
 
 def modificar_ruta(nueva_ruta):
     global ruta_archivo
@@ -99,28 +99,28 @@ def procesar_archivo():
                     tiempo_senal=senal_temporal.get('t')
                     amplitud_senal=senal_temporal.get('A')
                     #Listas
-                    manejador_lista_datos=lista_dato()
-                    manejador_lista_binaria=lista_dato()
-                    manejador_lista_patrones=lista_patrones()
-                    manejador_lista_grupos=lista_grupo()
+                    lista_datos_temporal=lista_dato()
+                    lista_binaria_temporal=lista_dato()
+                    lista_patrones_temporal=lista_patrones()
+                    lista_grupos_temporal=lista_grupo()
                     for dato_senal in senal_temporal.findall('dato'):
                         tiempo=dato_senal.get('t')
                         amplitud=dato_senal.get('A')
                         valor=dato_senal.text
                         nuevo_dato=dato(int(tiempo),int(amplitud),int(valor))
-                        manejador_lista_datos.insertar_dato(nuevo_dato)
+                        lista_datos_temporal.insertar_dato(nuevo_dato)
                         if valor =="0":
                             nuevo_dato=dato(int(tiempo),int(amplitud),0)
-                            manejador_lista_binaria.insertar_dato(nuevo_dato)
+                            lista_binaria_temporal.insertar_dato(nuevo_dato)
                         else:
                             nuevo_dato=dato(int(tiempo),int(amplitud),1)
-                            manejador_lista_binaria.insertar_dato(nuevo_dato)
-                    manejador_lista_senales.insertar_senal(senal(nombre_senal,tiempo_senal,amplitud_senal,
-                                                                 manejador_lista_datos,
-                                                                 manejador_lista_binaria,
-                                                                 manejador_lista_patrones,
-                                                                 manejador_lista_grupos)) 
-                manejador_lista_senales.procesar_archivo()
+                            lista_binaria_temporal.insertar_dato(nuevo_dato)
+                    lista_senales_temporal.insertar_senal(senal(nombre_senal,tiempo_senal,amplitud_senal,
+                                                                 lista_datos_temporal,
+                                                                 lista_binaria_temporal,
+                                                                 lista_patrones_temporal,
+                                                                 lista_grupos_temporal)) 
+                lista_senales_temporal.procesar_archivo()
         except Exception as e:
             print("ERROR:", e)
     print("--------------------------------------")         
@@ -145,7 +145,7 @@ def escribir_archivo_salida():
     print("--------------------------------------------------")
     nombre_xml=input("Ingrese un nombre para guardar el archivo XML: ")
     print("")
-    manejador_lista_senales.escribir_archivo_salida(nombre_xml)
+    lista_senales_temporal.escribir_archivo_salida(nombre_xml)
     print("--------------------------------------")         
     print("¿Desea realizar otra operación?")
     print("1. Sí")
@@ -193,7 +193,7 @@ def generar_grafica():
     print("--------------------------------------------------")
     nombre_senal=input("Ingrese nombre de la señal: ")
     print("")
-    manejador_lista_senales.grafica_matrices(nombre_senal)
+    lista_senales_temporal.grafica_matrices(nombre_senal)
     print("--------------------------------------")         
     print("¿Desea realizar otra operación?")
     print("1. Sí")
@@ -214,9 +214,9 @@ def inicializar_sistema():
     print("--------------------------------------------------")
     print("INICIALIZAR SISTEMA")
     print("--------------------------------------------------")
-    manejador_lista_senales.inicializar_sistema()
+    lista_senales_temporal.inicializar_sistema()
     print("")
-    manejador_lista_senales.imprimir_senales()
+    lista_senales_temporal.imprimir_senales()
     modificar_ruta("")
     print("--------------------------------------")         
     print("¿Desea realizar otra operación?")
